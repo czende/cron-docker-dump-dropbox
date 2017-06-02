@@ -187,8 +187,8 @@ if [ "$dump_remove" == "y" ]
 	else 
 		printf "\n"
 		printf "${bold}SUCCESS:${normal} cron time schedule for removing dumps = ${red}$dump_remove_cron${nc}"	
+		printf "\n\n\n\n"
 	fi
-	printf "\n\n\n\n"
 fi
 
 ## Download dropbox uploader
