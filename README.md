@@ -46,6 +46,6 @@ chmod +x cddd.sh
 ```
 
 
-### Thanks to this excelent [https://github.com/andreafabrizi/Dropbox-Uploader](Dropbox Uploader)
+### Thanks to this excelent [Dropbox Uploader](https://github.com/andreafabrizi/Dropbox-Uploader)
 
 
