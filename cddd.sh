@@ -173,9 +173,9 @@ printf "${orange}###### Getting settings for removing dumps #######\n\n${nc}"
 printf "Do you want to trigger removing dumps from host after sending? (y/n): " 
 read -r dump_remove
 if [ "$dump_remove" == "n" ]; then
-	printf "OK, removing dumps from host will not be performed\n"
+	printf "OK, removing dumps from host will not be performed"
+	printf "\n\n\n\n"
 elif [ "$dump_remove" == "y" ] 
-	printf "\n"
 	## Get scheduling for removing
 	printf "${orange}###### Getting time scheduling for removing #######\n\n${nc}"
 	printf "Please enter desired cron time schedule for removing dumps from host (e.g. 30 */5 * * *): " 
@@ -188,8 +188,8 @@ elif [ "$dump_remove" == "y" ]
 		printf "${bold}SUCCESS:${normal} cron time schedule for removing dumps = ${red}$dump_remove_cron${nc}"	
 	fi
 	printf "\n\n\n\n"
+else
 fi
-printf "\n\n\n\n"
 
 ## Download dropbox uploader
 printf "${orange}###### Downloading dropbox uploader #######\n\n${nc}"
