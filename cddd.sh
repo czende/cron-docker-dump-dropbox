@@ -131,6 +131,7 @@ printf "\n\n\n\n"
 
 ## Configure crontab
 printf "${orange}###### Configuring crontab #######\n\n${nc}"
+rm -rf crontab
 touch crontab
 echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> crontab
 echo "SHELL=/bin/bash" >> crontab
