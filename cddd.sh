@@ -173,6 +173,7 @@ printf "${orange}###### Getting settings for removing dumps #######\n\n${nc}"
 printf "Do you want to trigger removing dumps from host after sending? (y/n): " 
 read -r dump_remove
 if [ "$dump_remove" == "n" ]; then
+	printf "\n"
 	printf "OK, removing dumps from host will not be performed"
 	printf "\n\n\n\n"
 fi
