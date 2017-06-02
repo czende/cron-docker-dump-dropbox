@@ -9,6 +9,7 @@ orange='\033[0;33m'
 white='\033[0;37m'
 yellow='\033[1;33m'
 nc='\033[0m' # No Color
+datemark='`date +\%Y-\%m-\%d:\%H:\%M:\%S`'
 
 ## Logo & description
 printf "${orange}
@@ -28,7 +29,7 @@ printf "\n\n${orange}
 \n\n${nc}"
 
 
-## Check if Docker is installed
+## Check if cron is installed
 printf "${orange}###### Checking if cron is installed ######\n\n${nc}"
 sleep 1
 if [ -z `which cron` ]; then
@@ -39,6 +40,7 @@ else
 	printf "${bold}SUCCESS:${normal} You have cron installed :-) !\n\n\n\n"
 fi
 
+## Check if docker is installed
 printf "${orange}###### Checking if docker is installed #######\n\n${nc}"
 sleep 1
 if [ -z `which docker` ]; then
@@ -101,6 +103,19 @@ else
 fi
 printf "\n\n\n\n"
 
+## Get MySQL dump path
+printf "${orange}###### Getting MySQL dump path #######\n\n${nc}"
+printf "Please enter desired path for storing dump (e.g. /mnt/dumps/): " 
+read -r dump_path
+if [ ! "$dump_path" ]; then
+	printf "${red}ERROR: Please enter your path for storing dumps!${nc}\n"
+	exit
+else 
+	printf "\n"
+	printf "${bold}SUCCESS:${normal} your path for storing dumps = ${red}$dump_path${nc}"	
+fi
+printf "\n\n\n\n"
+
 ## Get dropbox token
 printf "${orange}###### Getting dropbox oAuth token #######\n\n${nc}"
 printf "Please enter dropbox oAuth token: " 
@@ -111,6 +126,68 @@ if [ ! "$token" ]; then
 else 
 	printf "\n"
 	printf "${bold}SUCCESS:${normal} your dropbox oAuth token = ${red}$token${nc}"	
+fi
+printf "\n\n\n\n"
+
+## Get dropbox path
+printf "${orange}###### Getting Dropbox path #######\n\n${nc}"
+printf "Please enter desired Dropbox path for sending dumps (e.g. /mydumps/): " 
+read -r drop_path
+if [ ! "$drop_path" ]; then
+	printf "${red}ERROR: Please enter your Dropbox path for sending dumps!${nc}\n"
+	exit
+else 
+	printf "\n"
+	printf "${bold}SUCCESS:${normal} your Dropbox path for sending dumps = ${red}$drop_path${nc}"	
+fi
+printf "\n\n\n\n"
+
+## Get scheduling for dumping
+printf "${orange}###### Getting time scheduling for dumping #######\n\n${nc}"
+printf "Please enter desired cron time schedule for dumping database (e.g. 0 */4 * * *): " 
+read -r dump_cron
+if [ ! "$dump_cron" ]; then
+	printf "${red}ERROR: Please enter desired cron time schedule for dumping database!${nc}\n"
+	exit
+else 
+	printf "\n"
+	printf "${bold}SUCCESS:${normal} cron time schedule for dumping database = ${red}$dump_cron${nc}"	
+fi
+printf "\n\n\n\n"
+
+## Get scheduling for sending
+printf "${orange}###### Getting time scheduling for sending #######\n\n${nc}"
+printf "Please enter desired cron time schedule for sending dumps to the Dropbox (e.g. 0 */5 * * *): " 
+read -r dump_send
+if [ ! "$dump_send" ]; then
+	printf "${red}ERROR: Please enter desired cron time schedule for sending dumps to the Dropbox!${nc}\n"
+	exit
+else 
+	printf "\n"
+	printf "${bold}SUCCESS:${normal} cron time schedule for dumping database = ${red}$dump_send${nc}"	
+fi
+printf "\n\n\n\n"
+
+## Get answer to remove dumps
+printf "${orange}###### Getting settings for removing dumps #######\n\n${nc}"
+printf "Do you want to trigger removing dumps from host after sending? (y/n): " 
+read -r dump_remove
+if [ "$dump_remove" == "n" ]; then
+	printf "OK, removing dumps from host will not be performed\n"
+elif [ "$dump_remove" == "y" ] 
+	printf "\n"
+	## Get scheduling for removing
+	printf "${orange}###### Getting time scheduling for removing #######\n\n${nc}"
+	printf "Please enter desired cron time schedule for removing dumps from host (e.g. 30 */5 * * *): " 
+	read -r dump_remove_cron
+	if [ ! "$dump_remove_cron" ]; then
+		printf "${red}ERROR: Please enter desired cron time schedule for removing dumps!${nc}\n"
+		exit
+	else 
+		printf "\n"
+		printf "${bold}SUCCESS:${normal} cron time schedule for removing dumps = ${red}$dump_remove_cron${nc}"	
+	fi
+	printf "\n\n\n\n"
 fi
 printf "\n\n\n\n"
 
@@ -136,10 +213,11 @@ touch crontab
 echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> crontab
 echo "SHELL=/bin/bash" >> crontab
 echo " " >> crontab
-datemark='`date +\%Y-\%m-\%d:\%H:\%M:\%S`'
-echo "0 */4 * * * docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > /mnt/autodevelo-${database}/db/dumps/${database}_${datemark}.sql.gz" >> crontab
-echo "0 */5 * * * /root/dropbox_uploader.sh -s upload /mnt/autodevelo-${database}/db/dumps/*.gz /autodevelo-${database}/db-dumps" >> crontab
-echo "30 */5 * * * rm -rf /mnt/autodevelo-${database}/db/dumps/*.gz" >> crontab
+echo "${dump_cron} docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > ${dump_path}${database}_${datemark}.sql.gz" >> crontab
+echo "${dump_send} /root/dropbox_uploader.sh -s upload ${dump_path}*.gz ${drop_path}" >> crontab
+if [ "$dump_remove" == "y" ]; then
+	echo "${dump_remove_cron} rm -rf ${dump_path}*.gz" >> crontab
+fi
 crontab crontab
 service cron start
 printf "${bold}SUCCESS:${normal} crontab configured!"
