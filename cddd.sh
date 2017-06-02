@@ -215,7 +215,7 @@ touch crontab
 echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> crontab
 echo "SHELL=/bin/bash" >> crontab
 echo " " >> crontab
-echo "${dump_cron} docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > ${dump_path}${database}_${datemark}.sql.gz" >> crontab
+echo "${dump_cron} docker exec ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > ${dump_path}${database}_${datemark}.sql.gz" >> crontab
 echo "${dump_send} /root/dropbox_uploader.sh -s upload ${dump_path}*.gz ${drop_path}" >> crontab
 if [ "$dump_remove" == "y" ]; then
 	echo "${dump_remove_cron} rm -rf ${dump_path}*.gz" >> crontab
