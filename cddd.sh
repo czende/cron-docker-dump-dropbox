@@ -136,7 +136,7 @@ touch crontab
 echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> crontab
 echo "SHELL=/bin/bash" >> crontab
 echo " " >> crontab
-echo "0 */4 * * * docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > /mnt/autodevelo-${database}/db/dumps/${database}_`'date +\%Y-\%m-\%d:\%H:\%M:\%S'`.sql.gz" >> crontab
+echo "0 */4 * * * docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > /mnt/autodevelo-${database}/db/dumps/${database}_`\date +\%Y-\%m-\%d:\%H:\%M:\%S`.sql.gz" >> crontab
 echo "0 */5 * * * /root/dropbox_uploader.sh -s upload /mnt/autodevelo-${database}/db/dumps/*.gz /autodevelo-${database}/db-dumps" >> crontab
 echo "30 */5 * * * rm -rf /mnt/autodevelo-${database}/db/dumps/*.gz" >> crontab
 crontab crontab
