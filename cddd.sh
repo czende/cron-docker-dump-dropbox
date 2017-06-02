@@ -139,7 +139,6 @@ echo " " >> crontab
 echo "0 */4 * * * docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > /mnt/autodevelo-${database}/db/dumps/${database}_`date +\%Y-\%m-\%d:\%H:\%M:\%S`.sql.gz" >> crontab
 echo "0 */5 * * * /root/dropbox_uploader.sh -s upload /mnt/autodevelo-${database}/db/dumps/*.gz /autodevelo-${database}/db-dumps" >> crontab
 echo "30 */5 * * * rm -rf /mnt/autodevelo-${database}/db/dumps/*.gz" >> crontab
-echo " " >> crontab
 crontab crontab
 service cron start
 printf "${bold}SUCCESS:${normal} crontab configured!"
@@ -147,10 +146,10 @@ printf "\n\n\n\n"
 
 
 printf "${white}
- ____   ___  _   _ _____     ______   _______   ______   _______ 
-|  _ \ / _ \| \ | | ____|   | __ ) \ / / ____| | __ ) \ / / ____|
-| | | | | | |  \| |  _|     |  _ \\ V /|  _|   |  _ \\ V /|  _|  
-| |_| | |_| | |\  | |___ _  | |_) || | | |___  | |_) || | | |___ 
-|____/ \___/|_| \_|_____(_) |____/ |_| |_____| |____/ |_| |_____|${nc}"
+    _    _     _       ____   ___  _   _ _____ 
+   / \  | |   | |     |  _ \ / _ \| \ | | ____|
+  / _ \ | |   | |     | | | | | | |  \| |  _|  
+ / ___ \| |___| |___  | |_| | |_| | |\  | |___ 
+/_/   \_\_____|_____| |____/ \___/|_| \_|_____|${nc}"
 
 printf "\n\n"
