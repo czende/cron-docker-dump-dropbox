@@ -9,7 +9,7 @@ orange='\033[0;33m'
 white='\033[0;37m'
 yellow='\033[1;33m'
 nc='\033[0m' # No Color
-datemark='`date +\%d-\%m-\%Y--\%H.\%M.\%S`'
+datemark='`date +\%d-\%m-\%Y--\%H-\%M-\%S`'
 
 ## Logo & description
 printf "${orange}
