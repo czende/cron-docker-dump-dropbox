@@ -134,14 +134,11 @@ printf "${orange}###### Configuring crontab #######\n\n${nc}"
 touch crontab
 echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> crontab
 echo "SHELL=/bin/bash" >> crontab
-echo "MYSQL_USER=${user}" >> crontab
-echo "MYSQL_PASS=${pass}" >> crontab
-echo "MYSQL_DB=${database}" >> crontab
-echo "DOCKER_ID=${docker_id}" >> crontab
 echo " " >> crontab
-echo "0 */4 * * * docker exec -it $DOCKER_ID mysqldump -u $MYSQL_USER -p$MYSQL_PASS --databases $MYSQL_DB | gzip > /mnt/autodevelo-$MYSQL_DB/db/dumps/$MYSQL_DB_`date +\%Y-\%m-\%d:\%H:\%M:\%S`.sql.gz" >> crontab
-echo "0 */5 * * * /root/dropbox_uploader.sh -s upload /mnt/autodevelo-$MYSQL_DB/db/dumps/*.gz /autodevelo-$MYSQL_DB/db-dumps" >> crontab
-echo "30 */5 * * * rm -rf /mnt/autodevelo-$MYSQL_DB/db/dumps/*.gz" >> crontab
+echo "0 */4 * * * docker exec -it ${docker_id} mysqldump -u ${user} -p'${pass}' --databases ${database} | gzip > /mnt/autodevelo-${database}/db/dumps/${database}_`date +\%Y-\%m-\%d:\%H:\%M:\%S`.sql.gz" >> crontab
+echo "0 */5 * * * /root/dropbox_uploader.sh -s upload /mnt/autodevelo-${database}/db/dumps/*.gz /autodevelo-${database}/db-dumps" >> crontab
+echo "30 */5 * * * rm -rf /mnt/autodevelo-${database}/db/dumps/*.gz" >> crontab
+echo " " >> crontab
 crontab crontab
 service cron start
 printf "\n\n"
