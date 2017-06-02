@@ -175,7 +175,8 @@ read -r dump_remove
 if [ "$dump_remove" == "n" ]; then
 	printf "OK, removing dumps from host will not be performed"
 	printf "\n\n\n\n"
-elif [ "$dump_remove" == "y" ] 
+fi
+if [ "$dump_remove" == "y" ] 
 	## Get scheduling for removing
 	printf "${orange}###### Getting time scheduling for removing #######\n\n${nc}"
 	printf "Please enter desired cron time schedule for removing dumps from host (e.g. 30 */5 * * *): " 
@@ -188,7 +189,6 @@ elif [ "$dump_remove" == "y" ]
 		printf "${bold}SUCCESS:${normal} cron time schedule for removing dumps = ${red}$dump_remove_cron${nc}"	
 	fi
 	printf "\n\n\n\n"
-else
 fi
 
 ## Download dropbox uploader
