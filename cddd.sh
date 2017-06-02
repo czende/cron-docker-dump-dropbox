@@ -141,6 +141,15 @@ echo "30 */5 * * * rm -rf /mnt/autodevelo-${database}/db/dumps/*.gz" >> crontab
 echo " " >> crontab
 crontab crontab
 service cron start
-printf "\n\n"
-printf "${yellow}SUCCESS: ALL DONE! Check your dropbox!${nc}"
+printf "${bold}SUCCESS:${normal} crontab configured!"
 printf "\n\n\n\n"
+
+
+printf "${white}
+ ____   ___  _   _ _____     ______   _______   ______   _______ 
+|  _ \ / _ \| \ | | ____|   | __ ) \ / / ____| | __ ) \ / / ____|
+| | | | | | |  \| |  _|     |  _ \\ V /|  _|   |  _ \\ V /|  _|  
+| |_| | |_| | |\  | |___ _  | |_) || | | |___  | |_) || | | |___ 
+|____/ \___/|_| \_|_____(_) |____/ |_| |_____| |____/ |_| |_____|${nc}"
+
+printf "\n\n"
