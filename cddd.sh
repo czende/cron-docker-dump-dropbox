@@ -176,7 +176,7 @@ if [ "$dump_remove" == "n" ]; then
 	printf "OK, removing dumps from host will not be performed"
 	printf "\n\n\n\n"
 fi
-if [ "$dump_remove" == "y" ] 
+if [ "$dump_remove" == "y" ]; then 
 	## Get scheduling for removing
 	printf "${orange}###### Getting time scheduling for removing #######\n\n${nc}"
 	printf "Please enter desired cron time schedule for removing dumps from host (e.g. 30 */5 * * *): " 
