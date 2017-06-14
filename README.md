@@ -8,7 +8,7 @@ Just because I needed it.
 - curl installed
 - cron installed
 - docker installed
-- running MySQL docker image with some database
+- running MySQL docker container with some database
 - gzip installed
 - MySQL docker container ID (you can retrieve it by 'docker ps')
 - your dropbox oAuth token
